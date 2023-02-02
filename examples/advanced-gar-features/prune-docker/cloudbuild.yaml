@@ -1,0 +1,38 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# REQUIREMENTS
+# ============
+#
+# Enable the following Google Cloud APIs
+# - Cloud Build API
+# - IAM API
+#
+# Add the following permissions to the cloud build service account (PROJECT_NUMBER@cloudbuild.gserviceaccount.com):
+# - Artifact Registry Repository Administrator
+# - Cloud Build Service Account
+
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: [
+          'artifacts',
+          'docker',
+          'tags',
+          'delete',
+          '${_IMAGE_NAME}:${_TAG}'
+        ]
+substitutions:
+  _IMAGE_NAME: 'us-central1-docker.pkg.dev/test-proj-341421/terraform-vet/terraform-vet'
+  _TAG: 'tag5'
+logsBucket: 'gs://test-proj-build-logs'
